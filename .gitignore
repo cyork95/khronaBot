@@ -1,2 +1,5 @@
 # Environemnt Files
 .env
+
+# Logging Files
+.log
