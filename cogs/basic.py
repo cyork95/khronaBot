@@ -38,22 +38,8 @@ class Basic(commands.Cog):
 
     @commands.Cog.listener()
     async def on_ready(self):
-        if not self._synced:
-            # Optionally, limit to specific guilds during development
-            # for guild_id in [123456789012345678, 987654321098765432]:
-            #     await self.bot.tree.sync(guild=discord.Object(id=guild_id))
-
-            # For production, sync commands globally (this can take up to 1 hour to propagate)
-            await self.bot.tree.sync()
-
-            # To immediately sync commands to all guilds the bot is part of:
-            # for guild in self.bot.guilds:
-            #     await self.bot.tree.sync(guild=guild)
-
-            print("Commands synced.")
-            self._synced = True
-
+        logger.info(f"{self.__class__.__name__} cog has been loaded.")
 
 async def setup(bot):
     await bot.add_cog(Basic(bot))
-    # Since syncing in `on_ready` could be delayed, you might consider initial sync here if necessary
+    await bot.tree.sync()

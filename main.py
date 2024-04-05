@@ -17,19 +17,11 @@ def run():
         logger.info(f'Guild ID: {bot.guilds[0].id}')
         for cog_file in settings.COGS_DIR.iterdir():
             if cog_file.name != "__init__.py" and cog_file.is_file():
-                await bot.load_extension(f"cogs.{cog_file.stem}")
-        if bot.guilds:  # Check if the bot is in any guilds
-            guild_id = bot.guilds[0].id  # Get the first guild's ID
-            logger.info(f"Syncing commands to the guild ID: {guild_id}")
-            bot.tree.copy_global_to(guild=discord.Object(id=guild_id))
-            await bot.tree.sync(guild=discord.Object(id=guild_id))
-        else:
-            logger.warning("Bot is not in any guilds.")
-
-    # Greeting Command
-    @bot.tree.command(description="Greets the user", name="greetings")
-    async def hello(interaction: discord.Interaction):
-        await interaction.response.send_message(f"Greetings human!")
+                try:
+                    await bot.load_extension(f"cogs.{cog_file.stem}")
+                except Exception as e:
+                    logger.error(f"Failed to load cog {cog_file.stem}: {e}")
+        await bot.tree.sync()
 
     # Reload command
     @bot.hybrid_command(alias=['r'],
