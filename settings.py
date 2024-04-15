@@ -211,7 +211,9 @@ def db_setup():
             pokemon TEXT NOT NULL,
             hunt_type TEXT NOT NULL,
             counter INTEGER DEFAULT 0,
-            completed BOOLEAN NOT NULL DEFAULT 0
+            completed BOOLEAN NOT NULL DEFAULT 0,
+            daily_goal INTEGER DEFAULT 0,
+            status TEXT NOT NULL DEFAULT 'active'
         )
     ''')
     conn.commit()
