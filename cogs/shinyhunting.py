@@ -8,6 +8,7 @@ import statistics
 import matplotlib.pyplot as plt
 import numpy as np
 
+
 def get_basic_stats(user_id):
     conn = sqlite3.connect('shiny_hunts.db')
     c = conn.cursor()
@@ -23,6 +24,7 @@ def get_basic_stats(user_id):
     else:
         return None, None, None
 
+
 def plot_hunt_distribution(user_id):
     conn = sqlite3.connect('shiny_hunts.db')
     c = conn.cursor()
@@ -35,6 +37,7 @@ def plot_hunt_distribution(user_id):
     plt.xlabel('Number of Attempts')
     plt.ylabel('Frequency')
     plt.show()
+
 
 def predict_attempts(user_id):
     conn = sqlite3.connect('shiny_hunts.db')
@@ -58,6 +61,7 @@ def predict_attempts(user_id):
     else:
         return None
 
+
 def compare_hunts_by_type(user_id):
     conn = sqlite3.connect('shiny_hunts.db')
     c = conn.cursor()
@@ -74,6 +78,7 @@ def compare_hunts_by_type(user_id):
 
     averages = {ht: statistics.mean(counts) for ht, counts in by_type.items()}
     return averages
+
 
 class CounterButton(Button):
     def __init__(self, label, hunt_id, increment):
@@ -307,8 +312,8 @@ class ShinyHunting(commands.Cog):
         conn.close()
         if hunt:
             embed = Embed(title=f"Statistics for {hunt[1]}",
-                                  description=f"Game: {hunt[0]}\nHunt Type: {hunt[2]}\nCounter: {hunt[3]}\nStatus: {'Completed' if hunt[4] else 'Active'}",
-                                  color=0x00ff00)
+                          description=f"Game: {hunt[0]}\nHunt Type: {hunt[2]}\nCounter: {hunt[3]}\nStatus: {'Completed' if hunt[4] else 'Active'}",
+                          color=0x00ff00)
             # Add more statistical insights here
             await ctx.send(embed=embed)
         else:
@@ -339,7 +344,7 @@ class ShinyHunting(commands.Cog):
 
         if average is not None:
             embed = Embed(title="Your Shiny Hunting Statistics",
-                                  description="Here are your shiny hunting statistics:", color=0x00ff00)
+                          description="Here are your shiny hunting statistics:", color=0x00ff00)
             embed.add_field(name="Average Attempts", value=f"{average:.2f}", inline=True)
             embed.add_field(name="Median Attempts", value=str(median), inline=True)
             embed.add_field(name="Mode of Attempts", value=str(mode), inline=True)
